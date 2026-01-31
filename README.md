@@ -107,7 +107,7 @@ Traditional placement management suffers from:
 - Python scripts (`app.py`, logic modules)  
 - HTML templates  
 ---
-##  contributer
+##  Contributer
 
 This project was developed collaboratively by the following contributors:
 
