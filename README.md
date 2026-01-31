@@ -103,20 +103,12 @@ Traditional placement management suffers from:
 
 ## 📂 Project Files
 
-**NPMS_Project.zip** contains:
+**NPMS_Project** contains:
 - Python scripts (`app.py`, logic modules)  
 - HTML templates  
-- Static files (CSS, JavaScript, images)  
-- SQLite database  
-
 ---
 
 ## ▶️ How to Run the Project
 
-1. Download the ZIP file from this repository  
-2. Extract the ZIP file  
-3. Open the folder in VS Code  
-4. Ensure Python is installed  
-5. Install dependencies:
-   ```bash
-   pip install flask
+1. Read the read me file 
+
