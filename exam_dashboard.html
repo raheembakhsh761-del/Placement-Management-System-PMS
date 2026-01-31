@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Dashboard - Namal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fc4b1afb 0%, #f7b733 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #fc4a1a;
+            font-size: 2em;
+        }
+
+        .btn-logout {
+            padding: 10px 25px;
+            background: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .flash {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .flash.success {
+            background: #d4edda;
+            color: #565715;
+            border-left: 4px solid #a76128;
+        }
+
+        .flash.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-icon { font-size: 2.5em; margin-bottom: 10px; }
+        .stat-number { font-size: 2.5em; font-weight: 700; color: #fc4a1a; }
+        .stat-label { color: #6c757d; margin-top: 5px; }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            color: #fc4a1a;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            border-bottom: 3px solid #f7b733;
+            padding-bottom: 10px;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+
+        .info-box strong { color: #856404; }
+        .info-box ul { margin: 10px 0 0 20px; }
+        .info-box li { margin: 5px 0; }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .required { color: #dc3545; }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #fc4a1a;
+            box-shadow: 0 0 0 3px rgba(252, 74, 26, 0.1);
+        }
+
+        .example-box {
+            background: #e7f3ff;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #004085;
+            border-left: 3px solid #0056b3;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(252, 74, 26, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        th {
+            background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        tbody tr:hover {
+            background: #fff3cd;
+        }
+
+        .cgpa-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Exam Department Dashboard</h1>
+            <a href="/logout" class="btn-logout">Logout</a>
+        </div>
+
+        {% if get_flashed_messages() %}
+            {% for category, message in get_flashed_messages(with_categories=true) %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👨‍🎓</div>
+                <div class="stat-number">{{ stats.total_students }}</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-number">{{ stats.active_students }}</div>
+                <div class="stat-label">Active Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-number">{{ "%.2f"|format(stats.avg_cgpa) }}</div>
+                <div class="stat-label">Average CGPA</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Update Student Semester Result</h2>
+            <div class="info-box">
+                <strong>How it works:</strong> Enter the student's Reg No and their GPA for the 
+                <strong>current semester</strong>. The system will automatically:
+                <ul>
+                    <li>Add the new GPA to their history</li>
+                    <li>Recalculate their CGPA (average of all semesters)</li>
+                    <li>Increment their semester and year</li>
+                    <li>Update eligibility for job opportunities</li>
+                </ul>
+            </div>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label>Student Registration No <span class="required">*</span></label>
+                    <input type="text" name="reg_no" placeholder="e.g., 2024-CS-001" required>
+                    <div class="example-box">
+                        💡 Example: 2024-CS-001 or 2023-EE-042
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>New Semester GPA (0.00 - 4.00) <span class="required">*</span></label>
+                    <input type="number" step="0.01" name="gpa" placeholder="e.g., 3.5" min="0" max="4" required>
+                    <div class="example-box">
+                        💡 Enter the GPA achieved in the most recent semester (e.g., 3.75)
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Update Academic Record</button>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>📚 Student Records (For Reference)</h2>
+            <p style="color: #6c757d; margin-bottom: 15px;">
+                Use this table to find the correct Reg No when updating records
+            </p>
+
+            {% if students %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Reg No</th>
+                        <th>Name</th>
+                        <th>Program</th>
+                        <th>CGPA</th>
+                        <th>Semester</th>
+                        <th>Year</th>
+                        <th>GPA History</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in students %}
+                    <tr>
+                        <td><strong>{{ s.reg_no }}</strong></td>
+                        <td>{{ s.name }}</td>
+                        <td>{{ s.program }}</td>
+                        <td><span class="cgpa-badge">{{ s.cgpa }}</span></td>
+                        <td>{{ s.semester }}</td>
+                        <td>Year {{ s.year }}</td>
+                        <td style="font-size: 0.85em; color: #6c757d;">
+                            {{ s.gpa_history.replace('|', ', ') if s.gpa_history else 'First Semester' }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <h3>No students registered yet</h3>
+                <p>Contact Placement Office to register students</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
